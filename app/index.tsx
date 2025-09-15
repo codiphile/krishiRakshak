@@ -1,18 +1,21 @@
 import { View, Text, SafeAreaView, StatusBar } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
+import { useAuth } from '../src/contexts/AuthContext';
 
 export default function KrishiRakshakSplash() {
   const router = useRouter();
+  const { isLoading } = useAuth();
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingText, setLoadingText] = useState('Initializing your farming companion...');
 
-  // Separate effect to handle navigation when progress reaches 100%
+  // Handle navigation based on loading progress (Development: Skip auth check)
   useEffect(() => {
-    if (loadingProgress >= 100) {
-      router.replace('/auth');
+    if (loadingProgress >= 100 && !isLoading) {
+      // Development: Always go to tabs, skip auth check
+      router.replace('/(tabs)');
     }
-  }, [loadingProgress, router]);
+  }, [loadingProgress, isLoading, router]);
 
   useEffect(() => {
     // Loading messages sequence
@@ -48,7 +51,10 @@ export default function KrishiRakshakSplash() {
 
     // Backup timer (in case something goes wrong with progress)
     const backupTimer = setTimeout(() => {
-      router.replace('/auth');
+      if (!isLoading) {
+        // Development: Always go to tabs, skip auth check
+        router.replace('/(tabs)');
+      }
     }, 4500);
 
     return () => {
@@ -56,7 +62,7 @@ export default function KrishiRakshakSplash() {
       clearInterval(progressInterval);
       clearInterval(textInterval);
     };
-  }, [router, loadingProgress]);
+  }, [router, loadingProgress, isLoading]);
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#16a34a" />

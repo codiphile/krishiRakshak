@@ -51,7 +51,7 @@ export default function HomeScreen() {
             <View className="flex-row justify-between">
               <View className="bg-blue-50 rounded-xl p-4 flex-1 mr-3">
                 <Text className="text-blue-600 text-2xl font-bold">25°C</Text>
-                <Text className="text-blue-700 text-sm">Today's Temp</Text>
+                <Text className="text-blue-700 text-sm">Today&apos;s Temp</Text>
               </View>
               <View className="bg-green-50 rounded-xl p-4 flex-1 mr-3">
                 <Text className="text-green-600 text-2xl font-bold">85%</Text>
